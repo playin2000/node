@@ -7,7 +7,7 @@
     'host_arch%': 'ia32',             # set v8's host architecture
     'want_separate_host_toolset%': 0, # V8 should not build target and host
     'library%': 'static_library',     # allow override to 'shared_library' for DLL/.so builds
-    'component%': 'static_library',   # NB. these names match with what V8 expects
+    'component%': 'shared_library',   # NB. these names match with what V8 expects
     'msvs_multi_core_compile': '0',   # we do enable multicore compiles, but not using the V8 way
     'python%': 'python',
 
@@ -61,7 +61,7 @@
           'v8_enable_handle_zapping': 1,
         },
         'defines': [ 'DEBUG', '_DEBUG' ],
-        'cflags': [ '-g', '-O0' ],
+        'cflags': [ '-g', '-O0','-fPIC' ],
         'conditions': [
           ['target_arch=="x64"', {
             'msvs_configuration_platform': 'x64',
@@ -77,7 +77,7 @@
         ],
         'msvs_settings': {
           'VCCLCompilerTool': {
-            'RuntimeLibrary': 1, # static debug
+            'RuntimeLibrary': 3, # 1 for static debug, 3 for MDd
             'Optimization': 0, # /Od, no optimization
             'MinimalRebuild': 'false',
             'OmitFramePointers': 'false',
@@ -95,7 +95,7 @@
         'variables': {
           'v8_enable_handle_zapping': 0,
         },
-        'cflags': [ '-O3' ],
+        'cflags': [ '-O3','-fPIC' ],
         'conditions': [
           ['target_arch=="x64"', {
             'msvs_configuration_platform': 'x64',
@@ -114,7 +114,7 @@
         ],
         'msvs_settings': {
           'VCCLCompilerTool': {
-            'RuntimeLibrary': 0, # static release
+            'RuntimeLibrary': 2, # 0 for static release, 2 for MD
             'Optimization': 3, # /Ox, full optimization
             'FavorSizeOrSpeed': 1, # /Ot, favour speed over size
             'InlineFunctionExpansion': 2, # /Ob2, inline anything eligible

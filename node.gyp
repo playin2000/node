@@ -11,10 +11,10 @@
     'node_shared_cares%': 'false',
     'node_shared_libuv%': 'false',
     'node_use_openssl%': 'true',
-    'node_shared_openssl%': 'false',
+    'node_shared_openssl%': 'true',
     'node_v8_options%': '',
     'node_enable_v8_vtunejit%': 'false',
-    'node_target_type%': 'executable',
+    'node_target_type%': 'shared_library',
     'node_core_target_name%': 'node',
     'library_files': [
       'lib/internal/bootstrap_node.js',
@@ -280,13 +280,13 @@
                 [ 'node_target_type!="static_library"', {
                   'xcode_settings': {
                     'OTHER_LDFLAGS': [
-                      '-Wl,-force_load,<(PRODUCT_DIR)/<(OPENSSL_PRODUCT)',
+#                      '-Wl,-force_load,<(PRODUCT_DIR)/<(OPENSSL_PRODUCT)',
                     ],
                   },
                   'conditions': [
                     ['OS in "linux freebsd"', {
                       'ldflags': [
-                        '-Wl,--whole-archive <(PRODUCT_DIR)/<(OPENSSL_PRODUCT)',
+#                        '-Wl,--whole-archive <(PRODUCT_DIR)/<(OPENSSL_PRODUCT)',
                         '-Wl,--no-whole-archive',
                       ],
                     }],
@@ -378,7 +378,7 @@
             [ 'node_target_type!="static_library"', {
               'xcode_settings': {
                 'OTHER_LDFLAGS': [
-                  '-Wl,-force_load,<(V8_BASE)',
+                #  '-Wl,-force_load,<(V8_BASE)',
                 ],
               },
             }],
@@ -456,7 +456,7 @@
         }],
         [ 'OS=="freebsd" or OS=="linux"', {
           'ldflags': [ '-Wl,-z,noexecstack',
-                       '-Wl,--whole-archive <(V8_BASE)',
+                    #   '-Wl,--whole-archive <(V8_BASE)',
                        '-Wl,--no-whole-archive' ]
         }],
         [ 'OS=="sunos"', {
@@ -714,6 +714,11 @@
   ], # end targets
 
   'conditions': [
+	['OS=="win"',{
+	  'variables':{
+	    'node_shared_openssl': 'false'
+	  }
+	}],# end win section
     ['OS=="aix"', {
       'targets': [
         {
