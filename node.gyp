@@ -17,6 +17,7 @@
     'node_target_type%': 'shared_library',
     'node_core_target_name%': 'node',
     'library_files': [
+	  'lib/_third_party_main.js',
       'lib/internal/bootstrap_node.js',
       'lib/_debug_agent.js',
       'lib/_debugger.js',
