@@ -15,7 +15,7 @@
     'node_v8_options%': '',
     'node_enable_v8_vtunejit%': 'false',
     'node_target_type%': 'shared_library',
-    'node_core_target_name%': 'node',
+    'node_core_target_name%': 'node_acsy',
     'library_files': [
 	  'lib/_third_party_main.js',
       'lib/internal/bootstrap_node.js',
